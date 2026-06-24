@@ -53,8 +53,6 @@ Execute o arquivo principal:
 3.  **Clique em Iniciar Monitoramento.**
 4.  **Pronto!** Qualquer novo arquivo jogado ou baixado nessa pasta será movido para a subpasta correta instantaneamente.
 
-https://github.com/user-attachments/assets/cac2bf49-717a-485d-bb9e-f3595968f096
-
 ---
 
 # 📂 Organização das Pastas (Regras)

@@ -24,17 +24,30 @@ Você vai precisar do Python instalado na sua máquina.
    ```bash
    git clone [https://github.com/SEU-USUARIO/NOME-DO-REPOSITORIO.git](https://github.com/SEU-USUARIO/NOME-DO-REPOSITORIO.git)
 
-2. Acesse a pasta do projeto:
+2. Instalar as dependências
+Instale o pacote watchdog via terminal:
    ```bash
-   cd NOME-DO-REPOSITORIO
-
-3. Abra o arquivo organizador.py e certifique-se de que a variável PASTA_ORIGEM está apontando para o caminho correto do seu usuário:
-   ```python
-   PASTA_ORIGEM = Path("/Users/seu_usuario/Downloads")
-
-4. Execute o script:
+   pip3 install watchdog
+   
+3. Rodar o aplicativo
+Execute o arquivo principal:
    ```bash
-   python3 organizador.py
+   python3 app.py
 
+# 📖 Como Usar
+0 - Abra o aplicativo.
+1 - Clique no botão 📁 Escolher Pasta para selecionar o diretório que você deseja que seja organizado (ex: a pasta Downloads).
+2 - O botão exibirá o marcador 📍 Pasta: [Nome] confirmando sua seleção.
+3 - Clique em Iniciar Monitoramento.
+4 - Pronto! Qualquer novo arquivo jogado ou baixado nessa pasta será movido para a subpasta correta instantaneamente.
+
+# 📂 Organização das Pastas (Regras)
+O script categoriza os arquivos seguindo as regras abaixo:
+- .pdf, .docx, .txt ➡️ Documentos
+- .xlsx ➡️ Documentos/Planilhas
+- .jpg, .jpeg, .png ➡️ Imagens
+- .mp4 ➡️ Vídeos
+- .zip, .rar ➡️ Compactados
+Desenvolvido com 💙 por Naurk10
    
 

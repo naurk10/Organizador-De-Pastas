@@ -56,6 +56,29 @@ class GerenciadorDeArquivosHandler(FileSystemEventHandler):
 
         self.organizar_arquivo(arquivo)
 
+    def gerar_nome_unico(self, pasta_destino, nome_arquivo):
+        """
+        Verifica se o arquivo já existe na pasta de destino.
+        Se existir, gera um novo nome com um contador incremental: arquivo (1).ext
+        """
+        arquivo_path = pasta_destino / nome_arquivo
+        # Se não existe duplicado, retorna o próprio caminho original
+        if not arquivo_path.exists():
+            return arquivo_path
+
+        # Se existir, separa o nome da extensão (ex: 'foto' e '.jpg')
+        nome_sem_extensao = arquivo_path.stem
+        extensao = arquivo_path.suffix
+        
+        contador = 1
+        # Loop continua rodando enquanto existir um arquivo com o nome gerado
+        while True:
+            novo_nome = f"{nome_sem_extensao} ({contador}){extensao}"
+            novo_caminho = pasta_destino / novo_nome
+            if not novo_caminho.exists():
+                return novo_caminho
+            contador += 1
+
     def organizar_arquivo(self, arquivo):
         extensao = arquivo.suffix.lower()
 
@@ -63,18 +86,15 @@ class GerenciadorDeArquivosHandler(FileSystemEventHandler):
             nome_pasta_destino = DICIONARIO_EXTENSOES[extensao]
             pasta_destino = PASTA_ORIGEM / nome_pasta_destino
 
+            # Criar a pasta de destino se ela não existir
             pasta_destino.mkdir(parents=True, exist_ok=True)
 
-            # Lógica simples para evitar substituir arquivos com o mesmo nome
-            destino_final = pasta_destino / arquivo.name
-            if destino_final.exists():
-                # Se já existe, adiciona o timestamp atual ao nome do arquivo
-                timestamp = int(time.time())
-                novo_nome = f"{arquivo.stem}_{timestamp}{arquivo.suffix}"
-                destino_final = pasta_destino / novo_nome
+            # Chamar nossa nova função inteligente de tratamento de duplicados
+            destino_final = self.gerar_nome_unico(pasta_destino, arquivo.name)
 
+            # Mover o arquivo para o destino final (único)
             shutil.move(str(arquivo), str(destino_final))
-            print(f"⚡ Automatizado: {arquivo.name} -> {nome_pasta_destino}")
+            print(f"⚡ Automatizado: {arquivo.name} -> {nome_pasta_destino} (Salvo como: {destino_final.name})")
 
 # 3. Inicializar o monitoramento
 if __name__ == "__main__":

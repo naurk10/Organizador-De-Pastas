@@ -1,23 +1,31 @@
-# 📂 Organizador Automático de Arquivos (macOS & Windows)
+# 🤖 Organizador de Pastas Inteligente
 
-Um script em Python automatizado que monitora e organiza sua pasta de Downloads (ou qualquer outra pasta bagunçada) movendo os arquivos para diretórios específicos com base em suas extensões.
+Um aplicativo em Python com interface gráfica (GUI) que monitora uma pasta específica em tempo real e organiza automaticamente os novos arquivos em subpastas com base em suas extensões (Documentos, Imagens, Vídeos, Compactados, etc.).
 
 ---
 
 ## ✨ Funcionalidades
-* **Organização por Categoria:** Separa automaticamente Documentos, Imagens, Vídeos e Compactados.
-* **Multiplataforma:** Adaptado para rodar perfeitamente tanto em **macOS** quanto em **Windows** (usando caminhos dinâmicos com `pathlib`).
-* **Feedback Visual:** Mostra no terminal em tempo real quais arquivos foram movidos e para onde.
+
+- **Monitoramento em Tempo Real:** Utiliza a biblioteca `watchdog` para detectar instantaneamente quando um novo arquivo é adicionado à pasta escolhida.
+- **Evita Conflito de Duplicados:** Se um arquivo com o mesmo nome já existir na pasta de destino, o sistema gera automaticamente um nome único (ex: `foto (1).jpg`).
+- **Interface Gráfica Nativa:** Interface simples desenvolvida em `Tkinter`, otimizada para funcionar perfeitamente tanto no modo claro quanto no modo escuro (Dark Mode) do macOS.
+- **Execução Assíncrona (Multi-threading):** O monitoramento roda em uma thread separada para garantir que a interface visual nunca trave ou congele durante a execução.
+
+---
 
 ## 🛠️ Tecnologias Utilizadas
-* **Python 3.x**
-* **Pathlib:** Para manipulação inteligente e segura de caminhos de arquivos.
-* **Shutil & OS:** Para operações de sistema e movimentação de arquivos.
 
-## 🚀 Como Rodar o Projeto
+- **[Python](https://www.python.org/)** (Linguagem base)
+- **[Watchdog](https://pypi.org/project/watchdog/)** (Monitoramento do sistema de arquivos)
+- **[Tkinter](https://docs.python.org/3/library/tkinter.html)** (Interface gráfica nativa)
+- **Multi-threading** (Processamento em segundo plano)
+
+---
+
+## 🚀 Como Executar o Projeto
 
 ### Pré-requisitos
-Você vai precisar do Python instalado na sua máquina.
+Certifique-se de ter o Python 3 instalado no seu computador. Além disso, é necessário instalar a biblioteca `watchdog`.
 
 ### Passos
 1. Clone este repositório:

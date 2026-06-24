@@ -42,12 +42,17 @@ Execute o arquivo principal:
    ```bash
    python3 app.py
 
-# 📖 Como Usar
-0 - Abra o aplicativo.
-1 - Clique no botão 📁 Escolher Pasta para selecionar o diretório que você deseja que seja organizado (ex: a pasta Downloads).
-2 - O botão exibirá o marcador 📍 Pasta: [Nome] confirmando sua seleção.
-3 - Clique em Iniciar Monitoramento.
-4 - Pronto! Qualquer novo arquivo jogado ou baixado nessa pasta será movido para a subpasta correta instantaneamente.
+---
+
+## 📖 Como Usar
+
+0.  **Abra o aplicativo.**
+1.  **Clique no botão** 📁 **Escolher Pasta** para selecionar o diretório que você deseja que seja organizado (ex: a pasta *Downloads*).
+2.  **O botão exibirá o marcador** 📍 **Pasta: [Nome]** confirmando sua seleção.
+3.  **Clique em Iniciar Monitoramento.**
+4.  **Pronto!** Qualquer novo arquivo jogado ou baixado nessa pasta será movido para a subpasta correta instantaneamente.
+
+---
 
 # 📂 Organização das Pastas (Regras)
 O script categoriza os arquivos seguindo as regras abaixo:

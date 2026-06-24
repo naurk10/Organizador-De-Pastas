@@ -1,3 +1,4 @@
+
 # 🤖 Organizador de Pastas Inteligente
 
 Um aplicativo em Python com interface gráfica (GUI) que monitora uma pasta específica em tempo real e organiza automaticamente os novos arquivos em subpastas com base em suas extensões (Documentos, Imagens, Vídeos, Compactados, etc.).
@@ -51,6 +52,8 @@ Execute o arquivo principal:
 2.  **O botão exibirá o marcador** 📍 **Pasta: [Nome]** confirmando sua seleção.
 3.  **Clique em Iniciar Monitoramento.**
 4.  **Pronto!** Qualquer novo arquivo jogado ou baixado nessa pasta será movido para a subpasta correta instantaneamente.
+
+https://github.com/user-attachments/assets/cac2bf49-717a-485d-bb9e-f3595968f096
 
 ---
 

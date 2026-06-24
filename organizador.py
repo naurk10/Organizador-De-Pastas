@@ -26,52 +26,18 @@ DICIONARIO_EXTENSOES = {
 import time
 
 class GerenciadorDeArquivosHandler(FileSystemEventHandler):
-    # Esse método é disparado automaticamente quando um arquivo ou pasta é criado
-    def on_created(self, event):
-        if event.is_directory:
-            return
-
-        arquivo = Path(event.src_path)
-        
-        # Ignora arquivos temporários de download comuns
-        if arquivo.suffix in ['.crdownload', '.download', '.tmp']:
-            return
-
-        # Espera o arquivo terminar de ser gravado no disco
-        tamanho_antigo = -1
-        while True:
-            try:
-                # Se o arquivo sumir no meio do processo (ex: mudou de nome pelo navegador)
-                if not arquivo.exists():
-                    return
-                
-                tamanho_atual = arquivo.stat().st_size
-                if tamanho_atual == tamanho_antigo:
-                    # O tamanho parou de mudar, o download provavelmente terminou
-                    break
-                tamanho_antigo = tamanho_atual
-                time.sleep(1) # Aguarda mais um segundo para checar de novo
-            except FileNotFoundError:
-                return
-
-        self.organizar_arquivo(arquivo)
+    def __init__(self, pasta_origem):
+        super().__init__()
+        self.pasta_origem = pasta_origem  # Guarda a pasta selecionada na interface
 
     def gerar_nome_unico(self, pasta_destino, nome_arquivo):
-        """
-        Verifica se o arquivo já existe na pasta de destino.
-        Se existir, gera um novo nome com um contador incremental: arquivo (1).ext
-        """
+        # ... (pode manter o seu código idêntico ao do print a partir daqui)
         arquivo_path = pasta_destino / nome_arquivo
-        # Se não existe duplicado, retorna o próprio caminho original
         if not arquivo_path.exists():
             return arquivo_path
-
-        # Se existir, separa o nome da extensão (ex: 'foto' e '.jpg')
         nome_sem_extensao = arquivo_path.stem
         extensao = arquivo_path.suffix
-        
         contador = 1
-        # Loop continua rodando enquanto existir um arquivo com o nome gerado
         while True:
             novo_nome = f"{nome_sem_extensao} ({contador}){extensao}"
             novo_caminho = pasta_destino / novo_nome
@@ -84,15 +50,13 @@ class GerenciadorDeArquivosHandler(FileSystemEventHandler):
 
         if extensao in DICIONARIO_EXTENSOES:
             nome_pasta_destino = DICIONARIO_EXTENSOES[extensao]
-            pasta_destino = PASTA_ORIGEM / nome_pasta_destino
+            # CORREÇÃO CRÍTICA: Usa a pasta do construtor, não a variável estática global
+            pasta_destino = self.pasta_origem / nome_pasta_destino
 
-            # Criar a pasta de destino se ela não existir
             pasta_destino.mkdir(parents=True, exist_ok=True)
 
-            # Chamar nossa nova função inteligente de tratamento de duplicados
             destino_final = self.gerar_nome_unico(pasta_destino, arquivo.name)
 
-            # Mover o arquivo para o destino final (único)
             shutil.move(str(arquivo), str(destino_final))
             print(f"⚡ Automatizado: {arquivo.name} -> {nome_pasta_destino} (Salvo como: {destino_final.name})")
 

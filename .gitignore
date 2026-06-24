@@ -1,0 +1,20 @@
+# Arquivos de sistema do macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Caches do Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Configurações de IDEs (Opcional, mas recomendado)
+.vscode/
+.idea/

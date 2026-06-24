@@ -1,11 +1,14 @@
 import os
 import shutil
+import time
 from pathlib import Path
+# Importando os módulos do watchdog
+from watchdog.observers import Observer
+from watchdog.events import FileSystemEventHandler
 
-# 1. Defina o caminho da pasta que será organizada (mude para o seu caminho)
-PASTA_ORIGEM = Path("/Users/kauau/Downloads")
+# 1. Configuração dos caminhos (Ajustado para o seu macOS)
+PASTA_ORIGEM = Path.home() / "Downloads"
 
-# 2. Defina o mapeamento de extensões para suas respectivas pastas
 DICIONARIO_EXTENSOES = {
     ".pdf": "Documentos",
     ".docx": "Documentos",
@@ -17,45 +20,76 @@ DICIONARIO_EXTENSOES = {
     ".mp4": "Videos",
     ".zip": "Compactados",
     ".rar": "Compactados",
-
-    # --- Novos (baseados no seu print) ---
-    ".dmg": "Instaladores_Mac",       # Slack, VSCode, Claude, Brave, Docker...
-    ".html": "Documentos/Web",         # altis.html, id917932200.html...
-    ".pptx": "Documentos/Apresentacoes",# Voice-Pitch-AI.pptx
-    ".csv": "Documentos/Planilhas",    # report.csv (vai junto com as planilhas)
-    ".sql": "Desenvolvimento",         # SQL_Schema.sql
-    ".pem": "Chaves_Seguranca",        # labsuser.pem (chaves da AWS/computação em nuvem)
-    ".gif": "Imagens",                 # tenor.gif (imagens animadas)
 }
 
-def organizar_pasta():
-    # Verifica se a pasta de origem realmente existe
-    if not PASTA_ORIGEM.exists():
-        print(f"A pasta {PASTA_ORIGEM} não foi encontrada.")
-        return
+# 2. Criar a classe que vai "escutar" os eventos da pasta
+import time
 
-    # Iterar por todos os arquivos da pasta de origem
-    for arquivo in PASTA_ORIGEM.iterdir():
-        # Ignorar se for uma pasta
-        if arquivo.is_dir():
-            continue
+class GerenciadorDeArquivosHandler(FileSystemEventHandler):
+    # Esse método é disparado automaticamente quando um arquivo ou pasta é criado
+    def on_created(self, event):
+        if event.is_directory:
+            return
+
+        arquivo = Path(event.src_path)
         
-        # Pegar a extensão do arquivo em letras minúsculas
+        # Ignora arquivos temporários de download comuns
+        if arquivo.suffix in ['.crdownload', '.download', '.tmp']:
+            return
+
+        # Espera o arquivo terminar de ser gravado no disco
+        tamanho_antigo = -1
+        while True:
+            try:
+                # Se o arquivo sumir no meio do processo (ex: mudou de nome pelo navegador)
+                if not arquivo.exists():
+                    return
+                
+                tamanho_atual = arquivo.stat().st_size
+                if tamanho_atual == tamanho_antigo:
+                    # O tamanho parou de mudar, o download provavelmente terminou
+                    break
+                tamanho_antigo = tamanho_atual
+                time.sleep(1) # Aguarda mais um segundo para checar de novo
+            except FileNotFoundError:
+                return
+
+        self.organizar_arquivo(arquivo)
+
+    def organizar_arquivo(self, arquivo):
         extensao = arquivo.suffix.lower()
 
-        # Verificar se a extensão está no nosso dicionário
         if extensao in DICIONARIO_EXTENSOES:
             nome_pasta_destino = DICIONARIO_EXTENSOES[extensao]
             pasta_destino = PASTA_ORIGEM / nome_pasta_destino
 
-            # Criar a pasta de destino se ela não existir
             pasta_destino.mkdir(parents=True, exist_ok=True)
 
-            # Mover o arquivo
-            shutil.move(str(arquivo), str(pasta_destino / arquivo.name))
-            print(f"Movido: {arquivo.name} -> Pasta {nome_pasta_destino}")
+            # Lógica simples para evitar substituir arquivos com o mesmo nome
+            destino_final = pasta_destino / arquivo.name
+            if destino_final.exists():
+                # Se já existe, adiciona o timestamp atual ao nome do arquivo
+                timestamp = int(time.time())
+                novo_nome = f"{arquivo.stem}_{timestamp}{arquivo.suffix}"
+                destino_final = pasta_destino / novo_nome
 
+            shutil.move(str(arquivo), str(destino_final))
+            print(f"⚡ Automatizado: {arquivo.name} -> {nome_pasta_destino}")
+
+# 3. Inicializar o monitoramento
 if __name__ == "__main__":
-    print("Iniciando a organização...")
-    organizar_pasta()
-    print("Organização concluída!")
+    print(f"🤖 Monitorando a pasta: {PASTA_ORIGEM}")
+    print("Pressione Ctrl+C para parar.")
+
+    event_handler = GerenciadorDeArquivosHandler()
+    observer = Observer()
+    observer.schedule(event_handler, path=str(PASTA_ORIGEM), recursive=False)
+    observer.start()
+
+    try:
+        while True:
+            time.sleep(1)
+    except KeyboardInterrupt:
+        observer.stop()
+        print("\n🤖 Monitoramento encerrado.")
+    observer.join()

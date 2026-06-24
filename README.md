@@ -23,3 +23,18 @@ Você vai precisar do Python instalado na sua máquina.
 1. Clone este repositório:
    ```bash
    git clone [https://github.com/SEU-USUARIO/NOME-DO-REPOSITORIO.git](https://github.com/SEU-USUARIO/NOME-DO-REPOSITORIO.git)
+
+2. Acesse a pasta do projeto:
+   ```bash
+   cd NOME-DO-REPOSITORIO
+
+3. Abra o arquivo organizador.py e certifique-se de que a variável PASTA_ORIGEM está apontando para o caminho correto do seu usuário:
+   ```python
+   PASTA_ORIGEM = Path("/Users/seu_usuario/Downloads")
+
+4. Execute o script:
+   ```bash
+   python3 organizador.py
+
+   
+

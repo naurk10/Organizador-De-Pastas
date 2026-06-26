@@ -65,7 +65,7 @@ O script categoriza os arquivos seguindo as regras abaixo:
 - .xlsx ➡️ Documentos/Planilhas
 - .jpg, .jpeg, .png ➡️ Imagens
 - .mp4 ➡️ Vídeos
-- .zip, .rar ➡️ Compactados
+- .zip, .rar ➡️ Compactados ||
 Desenvolvido com 💙 por Naurk10
 
    ![Mon Laferte GIF](https://media1.tenor.com/m/sUQgrMDcwvkAAAAC/mon-laferte-viña-del-mar.gif)

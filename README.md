@@ -30,8 +30,9 @@ Certifique-se de ter o Python 3 instalado no seu computador. Além disso, é nec
 
 ### Passos
 1. Clone este repositório:
-   ```bash
-   git clone [https://github.com/SEU-USUARIO/NOME-DO-REPOSITORIO.git](https://github.com/SEU-USUARIO/NOME-DO-REPOSITORIO.git)
+```bash
+git clone [https://github.com/naurk10/Organizador-De-Pastas.git](https://github.com/naurk10/Organizador-De-Pastas.git)
+```
 
 2. Instalar as dependências
 Instale o pacote watchdog via terminal:

@@ -68,4 +68,4 @@ O script categoriza os arquivos seguindo as regras abaixo:
 - .zip, .rar ➡️ Compactados ||
 Desenvolvido com 💙 por Naurk10
 
-   ![Mon Laferte GIF](https://media1.tenor.com/m/sUQgrMDcwvkAAAAC/mon-laferte-viña-del-mar.gif)
+   ![Baki GIF](https://media1.tenor.com/m/sf_OzGjTjPYAAAAC/how-you-look-saying-this-baki-typing.gif)
